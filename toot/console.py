@@ -155,6 +155,23 @@ timeline_args = common_timeline_args + [
     }),
 ]
 
+list_args = [
+    (["-i", "--id"], {
+        "type":str,
+        "help": "id of the list to perform operation on.",
+        
+    }),
+    (["-n", "--name"], {
+        "type":str,        
+        "help": "Name of the list to perform operation on ",
+
+    }),
+]
+
+list_member_args = list_args + [account_arg]
+
+
+
 AUTH_COMMANDS = [
     Command(
         name="login",
@@ -491,7 +508,46 @@ ACCOUNTS_COMMANDS = [
     ),
 ]
 
-COMMANDS = AUTH_COMMANDS + READ_COMMANDS + TUI_COMMANDS + POST_COMMANDS + STATUS_COMMANDS + ACCOUNTS_COMMANDS
+LIST_COMMANDS= [
+    Command(
+        name="showlists",
+        description="Get list of lists",
+        arguments=[ ],
+        require_auth=True
+    ),
+    Command(
+        name="showlist",
+        description="Get list of lists",
+        arguments= list_args ,
+        require_auth=True
+    ),    
+    Command(
+        name="listmembers",
+        description="Get list of lists",
+        arguments=list_args,
+        require_auth=True
+    ),
+    Command(
+        name="addmember",
+        description="Add account to a list",
+        arguments=[ ],
+        require_auth=True
+    ),
+    Command(
+        name="removemember",
+        description="remove account from a list",
+        arguments=[ ],
+        require_auth=True
+    ),
+    Command(
+        name="updatelist",
+        description="Change list title, or replies to show",
+        arguments=[ ],
+        require_auth=True
+    )
+]
+
+COMMANDS = AUTH_COMMANDS + READ_COMMANDS + TUI_COMMANDS + POST_COMMANDS + STATUS_COMMANDS + ACCOUNTS_COMMANDS + LIST_COMMANDS
 
 
 def print_usage():
@@ -504,6 +560,7 @@ def print_usage():
         ("Post", POST_COMMANDS),
         ("Status", STATUS_COMMANDS),
         ("Accounts", ACCOUNTS_COMMANDS),
+        ("Lists",LIST_COMMANDS)
     ]
 
     print_out("<green>{}</green>".format(CLIENT_NAME))

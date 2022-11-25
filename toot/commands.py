@@ -267,6 +267,22 @@ def _find_account(app, user, account_name):
 
     raise ConsoleError("Account not found")
 
+def _find_list(app, user, list_id, list_name):
+    """For a given id or name get the list object
+
+    Raises an exception if not found.
+    """
+    if not id and not name:
+        raise ConsoleError("No list id or name")
+    lists = api.get_lists(app, user)
+    for list in lists:
+        if id and list['id'] == list_id:
+            return list
+        if list_name and list['title'].lower() == list_name.lower():
+            return list
+    raise ConsoleError("List not found")
+
+        
 
 def follow(app, user, args):
     account = _find_account(app, user, args.account)
@@ -324,6 +340,47 @@ def whoami(app, user, args):
 def whois(app, user, args):
     account = _find_account(app, user, args.account)
     print_account(account)
+
+
+def showlists(app,user,args):
+    response = api.get_lists(app,user)
+    print(response)
+    #print_out(response)
+
+
+def showlist(app,user,args):
+    #list_id = _get_list_id(app, user, args)
+    list = _find_list(app, user, args.id, args.name)
+    response = api.get_list(app,user,list["id"]
+    )
+    print(args)
+    print(response)
+    #print_out(response)    
+
+def listmembers(app,user,args):
+    list = _find_list(app, user, args.id, args.name)
+    #print(f"list object: |{list}|")
+    response = api.get_list_members(app,user,list["id"])
+    #print(f"Response = |{response}|")
+    print_acct_list(response)
+
+
+def addmember(app,user,args):
+    response = api.get_lists(app,user)
+    print(response)
+    #print_out(response)    
+
+
+def removemember(app,user,args):
+    response = api.get_lists(app,user)
+    print(response)
+    #print_out(response)    
+
+
+def updatelist(app,user,args):
+    response = api.get_lists(app,user)
+    print(response)
+    #print_out(response)    
 
 
 def instance(app, user, args):

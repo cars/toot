@@ -358,3 +358,19 @@ def clear_notifications(app, user):
 def get_instance(domain, scheme="https"):
     url = "{}://{}/api/v1/instance".format(scheme, domain)
     return http.anon_get(url).json()
+
+
+def get_lists(app, user):
+    return http.get(app, user, '/api/v1/lists').json()
+
+
+#  path = '/api/v1/accounts/{}/{}'.format(account, 'followers')
+#  return _get_account_list(app, user, path)
+def get_list(app, user, list_id):
+    url = "/api/v1/lists/{}".format(list_id)
+    return http.get(app, user, url).json()    
+    
+def get_list_members(app, user, list_id ):
+    url = "/api/v1/lists/{}/accounts".format(list_id)
+    return http.get(app, user, url).json()
+    
